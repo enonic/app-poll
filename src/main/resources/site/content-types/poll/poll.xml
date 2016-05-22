@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content-type>
+  <display-name>Poll</display-name>
+  <super-type>base:structured</super-type>
+  <form>
+    <field-set name="basic">
+      <label>Poll</label>
+      <items>
+        <input type="TextLine" name="question">
+          <label>Question</label>
+          <occurrences minimum="0" maximum="1"/>
+        </input>
+        <input type="TextLine" name="option">
+          <label>Option</label>
+          <occurrences minimum="1" maximum="0"/>
+        </input>
+        <input type="DateTime" name="expires">
+          <label>Expires</label>
+          <occurrences minimum="0" maximum="1"/>
+          <config>
+            <timezone>true</timezone>
+          </config>
+        </input>
+        <input type="CheckBox" name="requireLogin">
+          <label>Require login</label>
+          <occurrences minimum="0" maximum="1"/>
+        </input>
+      </items>
+    </field-set>
+  </form>
+</content-type>

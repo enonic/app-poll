@@ -1,0 +1,21 @@
+<div class="p-poll">
+    <div data-th-if="${!poll}">
+        <h3>Configure poll</h3>
+    </div>
+
+    <div data-th-if="${poll}">
+
+        <div data-th-text="${poll.data.question}"></div>
+        <form data-th-action="${action}" method="post" data-th-id="${id}" data-th-attr="data-poll-id=${id}">
+            <div data-th-each="option : ${poll.data.option}" data-th-remove="tag">
+                <input type="radio" name="option" data-th-value="${option}" data-th-text="${option}" class="poll-option"/><br/>
+            </div>
+
+        </form>
+
+        <div class="poll-result">
+
+        </div>
+
+    </div>
+</div>
