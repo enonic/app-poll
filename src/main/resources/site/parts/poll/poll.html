@@ -18,7 +18,12 @@
                     </span>
                 </label>
             </div>
-            <button type="submit">Vote</button>
+            <div>
+                <button type="submit">Vote</button>
+                <span class="total" data-th-text="${total}"></span>
+                <span class="ends" data-th-text="${expires}"></span>
+            </div>
+
         </form>
 
         <!--<div class="poll-result">

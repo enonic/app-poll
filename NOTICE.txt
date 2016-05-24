@@ -1,0 +1,4 @@
+jQuery
+
+Moment.js MIT license
+http://momentjs.com/

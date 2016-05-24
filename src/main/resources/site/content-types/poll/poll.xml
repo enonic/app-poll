@@ -14,6 +14,9 @@
           <label>Option</label>
           <occurrences minimum="1" maximum="0"/>
         </input>
+        <input type="CheckBox" name="closed">
+          <label>Close poll</label>
+        </input>
         <input type="DateTime" name="expires">
           <label>Expires</label>
           <occurrences minimum="0" maximum="1"/>

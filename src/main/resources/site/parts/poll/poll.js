@@ -3,6 +3,7 @@ var contentLib = require('/lib/xp/content');
 var portal = require('/lib/xp/portal');
 var thymeleaf = require('/lib/xp/thymeleaf');
 var util = require('/lib/enonic/util');
+var moment = require('/assets/momentjs/2.12.0/min/moment-with-locales.min.js');
 
 exports.get = handleGet;
 
@@ -17,12 +18,18 @@ function handleGet(req) {
     function renderView() {
         var body = thymeleaf.render( resolve('poll.html'), createModel() );
 
+        var pageContributions = {};
+        pageContributions.headEnd = ['<link rel="stylesheet" href="' + portal.assetUrl({path: 'css/polls.css'}) + '" type="text/css" media="all">'];
+        pageContributions.bodyEnd = ['<script src="' + portal.assetUrl({path: 'js/polls.js'}) + '"></script>'];
+
+        // Include jQuery if it's set in the app config.
+        if(portal.getSiteConfig().includeJquery) {
+            pageContributions.bodyEnd.push('<script src="' + portal.assetUrl({path: 'jquery/2.2.4/jquery.min.js'}) + '"></script>');
+        }
+
         return {
             body: body,
-            pageContributions: {
-                bodyEnd: ['<script src="' + portal.assetUrl({path: 'js/polls.js'}) + '"></script>'],
-                headEnd: ['<link rel="stylesheet" href="' + portal.assetUrl({path: 'css/polls.css'}) + '" type="text/css" media="all">']
-            }
+            pageContributions: pageContributions
         };
     }
 
@@ -30,17 +37,24 @@ function handleGet(req) {
         var model = {};
 
         var poll = contentLib.get({key: config.poll || 1});
-        /*log.info('the poll is: ');
-        util.log(poll);*/
 
         model.poll = poll;
         model.id = 'poll-' + component.path.replace(/\/+/g, '-');
         model.action = portal.componentUrl({component: component._path});
+        model.expires = expires(poll.data.expires, poll.data.closed);
 
         return model;
     }
 
     return renderView();
+}
+
+function expires(expires, closed) {
+    var date = moment(expires);
+    if(closed || moment.now() > date) {
+        return 'Final results';
+    }
+    return 'Expires in ' + date.fromNow();
 }
 
 function handlePost(req) {
@@ -128,7 +142,6 @@ function handlePost(req) {
         if(!result) {
             return null;
         }
-
 
         return result? result : null;
     }
