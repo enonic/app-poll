@@ -10,7 +10,7 @@
           <label>Question</label>
           <occurrences minimum="0" maximum="1"/>
         </input>
-        <input type="TextLine" name="option">
+        <input type="TextLine" name="options">
           <label>Option</label>
           <occurrences minimum="1" maximum="0"/>
         </input>
