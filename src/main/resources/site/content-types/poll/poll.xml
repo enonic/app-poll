@@ -12,7 +12,7 @@
         </input>
         <input type="TextLine" name="options">
           <label>Option</label>
-          <occurrences minimum="1" maximum="0"/>
+          <occurrences minimum="2" maximum="0"/>
         </input>
         <input type="CheckBox" name="closed">
           <label>Close poll</label>

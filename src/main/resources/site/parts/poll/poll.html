@@ -8,6 +8,7 @@
 
         <div data-th-text="${poll.data.question}"></div>
         <form data-th-action="${action}" method="post" data-th-id="${id}" data-th-attr="data-poll-id=${id}" class="poll-form">
+            <div class="error-message"></div>
 
             <div data-th-each="option : ${options}" data-th-remove="tag">
                 <label class="poll-choice">
@@ -19,9 +20,10 @@
                     </span>
                 </label>
             </div>
-            <button type="submit" data-th-if="${!closed}">Vote</button>
-            <div>
 
+            <button type="submit" data-th-if="${!closed}">Vote</button>
+
+            <div>
                 <span class="total" data-th-text="${total}"></span>
                 <span class="ends" data-th-text="${expires}"></span>
             </div>

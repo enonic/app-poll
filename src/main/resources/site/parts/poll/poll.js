@@ -37,18 +37,20 @@ function handleGet(req) {
     function createModel() {
         var model = {};
 
-        //TODO: Show the results if the user already submitted.
-
         var poll = contentLib.get({key: config.poll || 1});
+        if(!poll) {
+            return null;
+        }
         var results = getResults(poll);
+        var closed = isPollClosed(poll);
 
         model.poll = poll;
         model.id = 'poll-' + component.path.replace(/\/+/g, '-');
         model.action = portal.componentUrl({component: component._path});
-        model.expires = isPollClosed(poll.data.expires, poll.data.closed) ? 'Final results' : 'Closes ' + moment(poll.data.expires).fromNow();
-        model.closed = isPollClosed(poll.data.expires, poll.data.closed);
-        model.total = results ? results.total + ' votes - ' : '0 votes - ';
-        model.options = getResultCount(results, poll.data.options);
+        model.expires = getExpires(closed, poll.data.expires);
+        model.closed = closed || hasResponded(poll);
+        model.total = results ? results.total + ' votes' : '0 votes';
+        model.options = getResultCount(results, util.data.forceArray(poll.data.options));
 
         return model;
     }
@@ -56,17 +58,46 @@ function handleGet(req) {
     return renderView();
 }
 
-function isPollClosed(expires, closed) {
-    var date = moment(expires);
-    if(closed || moment.now() > date) {
+function getExpires(closed, expires) {
+    if(closed) {
+        return 'Final results';
+    }
+    if(!expires) {
+        return '';
+    }
+    return ' - Closes ' + moment(expires).fromNow();
+}
+
+function isPollClosed(poll) {
+    var date = poll.data.expires ? moment(poll.data.expires) : null;
+    if(poll.data.closed || ( date && moment.now() > date)) {
         return true;
+    }
+
+    return false;
+}
+
+//Check if logged in user already submitted.
+function hasResponded(poll) {
+
+    //TODO: Also check user's IP address vs data.ip or set a cookie
+    var user = auth.getUser();
+    if(user) {
+        var response = contentLib.query({
+            count: 1,
+            query: '_parentPath = "/content' + poll._path + '" AND data.user = "' + user.key + '"',
+            contentTypes: [app.name + ':poll-response']
+        });
+
+        if(response.total > 0) {
+            return true;
+        }
     }
     return false;
 }
 
 function handlePost(req) {
-    //TODO: Check that the submitted choice is one of the valid options.
-    //TODO: Don't let the same user submit twice.
+
     var component = portal.getComponent();
     var config = component.config;
     var params = req.params;
@@ -76,14 +107,20 @@ function handlePost(req) {
     if(!pollContent) {
         return error('No poll content.');
     }
-    var pollOptions = pollContent.data.options; // Array of the options
+    var pollOptions = util.data.forceArray(pollContent.data.options); // Array of the options
 
-    //util.log(pollContent);
+    if(!isValidOption(params.option, pollOptions)) {
+        return error('Not a valid option ' + params.option);
+    }
+
+    if(pollContent.data.closed || moment.now() > moment(pollContent.data.expires)) {
+        return error('The poll is closed.');
+    }
 
     try {
         var data = {
             poll: pollContent._id,
-            option: params.option
+            option: params.option //TODO: Add user's IP address as data.ip or set a cookie
         };
         if (user) {
             data.user = user.key;
@@ -118,7 +155,19 @@ function handlePost(req) {
         body: body
     }
 
+}
 
+// Make sure some smartass didn't change the input value
+function isValidOption(choice, pollOptions) {
+    var valid = false;
+
+    pollOptions.map(function(option, i)  {
+        if (option == choice) {
+            valid = true;
+        }
+    })
+
+    return valid;
 }
 
 // Get an array of options with counts
@@ -136,7 +185,7 @@ function getResultCount(results, pollOptions) {
             }
         });
 
-        choice.percent = Math.round((choice.count / results.total) * 100);
+        choice.percent = Math.round((choice.count / results.total) * 100).toString();
 
         options.push(choice);
     });
@@ -145,8 +194,8 @@ function getResultCount(results, pollOptions) {
 
 // Get poll results
 function getResults(pollContent) {
-
     var query = 'data.poll = "' + pollContent._id + '"';
+
     var result = contentLib.query({
         start: 0,
         count: 0,

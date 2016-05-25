@@ -29,3 +29,6 @@
     transition: all .5s cubic-bezier(0.5,1.2,.5,1.2);
     width: 100%;
 }
+.p-poll .error-message {
+    color: red;
+}
