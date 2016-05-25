@@ -10,7 +10,7 @@
     width: 0;
     height: 100%;
     background-color: #ededed;
-    transition: all .3s cubic-bezier(0.5,1.2,.5,1.2);
+    transition: all .5s cubic-bezier(0.5,1.2,.5,1.2);
 }
 .p-poll .poll-option {
     position: relative;
@@ -24,4 +24,8 @@
 }
 .p-poll .result-name {
 
+}
+.p-poll button[type="submit"] {
+    transition: all .5s cubic-bezier(0.5,1.2,.5,1.2);
+    width: 100%;
 }

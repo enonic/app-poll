@@ -22,16 +22,14 @@ $(document).ready(function() {
             }
             form.find('.poll-option').hide();
 
-            console.log(data);
-
             var labels = form.find('.poll-choice');
             labels.each(function(i) {
                 var label = $(this);
-                var width = Math.round((data.choices[i].count / data.total) * 100);
-                label.find('.background').css('width', width + '%')
-                label.find('.result-percent').html(width + '%');
+                label.find('.background').css('width', data.choices[i].percent + '%')
+                label.find('.result-percent').html(data.choices[i].percent + '%').css('display','inline');
             });
-            form.find('button[type=submit]').hide();
+            form.find('button[type=submit]').hide('slow');
+            form.find('.total').html(data.total + ' votes - ');
 
         }).error(function(xhr, status, error) {
             // Server error

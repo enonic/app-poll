@@ -8,46 +8,25 @@
 
         <div data-th-text="${poll.data.question}"></div>
         <form data-th-action="${action}" method="post" data-th-id="${id}" data-th-attr="data-poll-id=${id}" class="poll-form">
-            <div data-th-each="option : ${poll.data.options}" data-th-remove="tag">
+
+            <div data-th-each="option : ${options}" data-th-remove="tag">
                 <label class="poll-choice">
-                    <span class="background"></span>
-                    <input type="radio" name="option" data-th-value="${option}" class="poll-option"/>
+                    <span class="background" data-th-style="${closed} ? 'width:' + ${option.percent} + '%' : ''"></span>
+                    <input type="radio" name="option" data-th-value="${option.value}" class="poll-option" data-th-style="${closed}? 'display:none;' : ''"/>
                     <span class="result">
-                        <span class="result-percent"></span>
-                        <span class="result-name" data-th-text="${option}"></span>
+                        <span class="result-percent" data-th-text="${option.percent} + '%'" data-th-style="${!closed}? 'display:none;' : ''"></span>
+                        <span class="result-name" data-th-text="${option.value}"></span>
                     </span>
                 </label>
             </div>
+            <button type="submit" data-th-if="${!closed}">Vote</button>
             <div>
-                <button type="submit">Vote</button>
+
                 <span class="total" data-th-text="${total}"></span>
                 <span class="ends" data-th-text="${expires}"></span>
             </div>
 
         </form>
-
-        <!--<div class="poll-result">
-            <div class="result">
-                <div class="percentage">20%</div>
-                <div class="poll-option">Marco Rubio</div>
-                <div class="background"></div>
-            </div>
-            <div class="result">
-                <div class="percentage">70%</div>
-                <div class="poll-option-r">Donald Trump</div>
-                <div class="background"></div>
-            </div>
-            <div class="result">
-                <div class="percentage">5%</div>
-                <div class="poll-option">Hillary Clinton</div>
-                <div class="background"></div>
-            </div>
-            <div class="result">
-                <div class="percentage">5%</div>
-                <div class="poll-option">Bernie Sanders</div>
-                <div class="background"></div>
-            </div>
-        </div>-->
 
     </div>
 </div>
