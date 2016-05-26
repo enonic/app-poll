@@ -16,6 +16,7 @@ function handleGet(req) {
     var component = portal.getComponent();
     var config = component.config;
     var user = auth.getUser();
+    var poll = contentLib.get({key: config.poll || 1});
 
     function renderView() {
         var body = thymeleaf.render( resolve('poll.html'), createModel() );
@@ -32,17 +33,16 @@ function handleGet(req) {
 
         return {
             body: body,
-            pageContributions: pageContributions
+            pageContributions: pageContributions,
+            cookies: createCookie(poll, req.cookies || {})
         };
     }
 
     function createModel() {
-        var model = {};
-
-        var poll = contentLib.get({key: config.poll || 1});
         if(!poll) {
             return null;
         }
+        var model = {};
         var results = getResults(poll);
         var closed = isPollClosed(poll);
 
@@ -50,7 +50,7 @@ function handleGet(req) {
         model.id = 'poll-' + component.path.replace(/\/+/g, '-');
         model.action = portal.componentUrl({component: component._path});
         model.expires = getExpires(closed, poll.data.expires);
-        model.closed = closed || hasResponded(poll);
+        model.closed = closed || hasResponded(poll, req.cookies);
         model.total = results ? results.total + ' votes' : '0 votes';
         model.options = getResultCount(results, util.data.forceArray(poll.data.options));
         model.requireLogin = poll.data.requireLogin && !user;
@@ -61,6 +61,21 @@ function handleGet(req) {
     return renderView();
 }
 
+function createCookie(poll, cookies) {
+    if(!poll) {
+        return null;
+    }
+    var cookie = {};
+    cookie.rand = {
+        value: cookies.rand ? cookies.rand : Math.floor(Math.random() * 10000000),
+        maxAge: 60 * 60 * 24 * 365, // 365 days
+        path: '/'
+    }
+
+    return cookie;
+}
+
+// If the poll is closed or expired show final results, else show time to expire, else if open and no expiration date show nothing.
 function getExpires(closed, expires) {
     if(closed) {
         return 'Final results';
@@ -81,14 +96,16 @@ function isPollClosed(poll) {
 }
 
 //Check if logged in user already submitted.
-function hasResponded(poll) {
+function hasResponded(poll, cookies) {
 
-    //TODO: Also check user's IP address vs data.ip or set a cookie
     var user = auth.getUser();
-    if(user) {
+    if(user || cookies.rand) {
+        if(!user) {
+            user = {};
+        }
         var response = contentLib.query({
             count: 1,
-            query: '_parentPath = "/content' + poll._path + '" AND data.user = "' + user.key + '"',
+            query: '_parentPath = "/content' + poll._path + '" AND (data.user = "' + user.key + '" OR data.cookie = "' + cookies.rand + '")',
             contentTypes: [app.name + ':poll-response']
         });
 
@@ -126,8 +143,7 @@ function handlePost(req) {
                 login: 'su',
                 userStore: 'system'
             }
-        }, function() {return createResponse(params, pollContent, user)});
-        log.info('responseContent is: ');
+        }, function() {return createResponse(params, pollContent, user, req.cookies)});
 
     } catch(e) {
         log.info(e.message);
@@ -155,17 +171,18 @@ function handlePost(req) {
 
 }
 
-function createResponse(params, pollContent, user) {
+function createResponse(params, pollContent, user, cookies) {
     var responseContent = contentLib.create({
         displayName: params.option || 'response',
         branch: 'draft',
         parentPath: pollContent._path,
         contentType: app.name + ':poll-response',
         data: {
-                  poll: pollContent._id,
-                  option: params.option,
-                  user: user ? user.key : null //TODO: Add user's IP address as data.ip or set a cookie
-              }
+            poll: pollContent._id,
+            option: params.option,
+            user: user ? user.key : null,
+            cookie: cookies.rand
+        }
     });
 
     var published = contentLib.publish({
