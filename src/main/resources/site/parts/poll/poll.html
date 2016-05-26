@@ -6,7 +6,7 @@
 
     <div data-th-if="${poll}">
 
-        <div data-th-text="${poll.displayName}"></div>
+        <p data-th-text="${poll.displayName}"></p>
         <form data-th-action="${action}" method="post" data-th-id="${id}" data-th-attr="data-poll-id=${id}" class="poll-form">
             <div class="error-message"></div>
 
@@ -23,10 +23,10 @@
 
             <button data-th-if="${!closed} and ${!requireLogin}" type="submit">Vote</button>
             <div data-th-if="${requireLogin}">Log in to vote</div>
-            <div>
+            <p class="poll-info">
                 <span class="total" data-th-text="${total}"></span>
                 <span class="ends" data-th-text="${expires}"></span>
-            </div>
+            </p>
 
         </form>
 

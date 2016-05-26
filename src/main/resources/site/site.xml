@@ -2,7 +2,7 @@
 <site>
   <config>
     <input type="CheckBox" name="includeJquery">
-      <label>Include jQuery</label>
+      <label>Include jQuery only if the site doesn't already have it</label>
     </input>
   </config>
 </site>

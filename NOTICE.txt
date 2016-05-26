@@ -1,4 +1,8 @@
-jQuery
+This software contains the following third party software:
 
-Moment.js MIT license
-http://momentjs.com/
+  jQuery
+  MIT License http://jquery.org/license
+
+  Moment.js http://momentjs.com/
+  MIT license https://opensource.org/licenses/MIT
+
