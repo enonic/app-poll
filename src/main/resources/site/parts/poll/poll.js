@@ -1,6 +1,7 @@
 // libs
 var auth = require('/lib/xp/auth');
 var contentLib = require('/lib/xp/content');
+var contextLib = require('/lib/xp/context');
 var portal = require('/lib/xp/portal');
 var thymeleaf = require('/lib/xp/thymeleaf');
 var util = require('/lib/enonic/util');
@@ -14,18 +15,19 @@ function handleGet(req) {
 
     var component = portal.getComponent();
     var config = component.config;
-
+    var user = auth.getUser();
 
     function renderView() {
         var body = thymeleaf.render( resolve('poll.html'), createModel() );
 
-        var pageContributions = {};
-        pageContributions.headEnd = ['<link rel="stylesheet" href="' + portal.assetUrl({path: 'css/polls.css'}) + '" type="text/css" media="all">'];
-        pageContributions.bodyEnd = ['<script src="' + portal.assetUrl({path: 'js/polls.js'}) + '"></script>'];
+        var pageContributions = {
+            headEnd: ['<link rel="stylesheet" href="' + portal.assetUrl({path: 'css/polls.css'}) + '" type="text/css" media="all">'],
+            bodyEnd: ['<script src="' + portal.assetUrl({path: 'js/polls.js'}) + '"></script>']
+        };
 
         // Include jQuery if it's set in the app config.
         if(portal.getSiteConfig().includeJquery) {
-            pageContributions.bodyEnd.push('<script src="' + portal.assetUrl({path: 'jquery/2.2.4/jquery.min.js'}) + '"></script>');
+            pageContributions.headEnd.push('<script src="' + portal.assetUrl({path: 'jquery/2.2.4/jquery.min.js'}) + '"></script>');
         }
 
         return {
@@ -51,6 +53,7 @@ function handleGet(req) {
         model.closed = closed || hasResponded(poll);
         model.total = results ? results.total + ' votes' : '0 votes';
         model.options = getResultCount(results, util.data.forceArray(poll.data.options));
+        model.requireLogin = poll.data.requireLogin && !user;
 
         return model;
     }
@@ -118,22 +121,17 @@ function handlePost(req) {
     }
 
     try {
-        var data = {
-            poll: pollContent._id,
-            option: params.option //TODO: Add user's IP address as data.ip or set a cookie
-        };
-        if (user) {
-            data.user = user.key;
-        }
-        var responseContent = contentLib.create({
-            displayName: params.option || 'response',
-            parentPath: pollContent._path,
-            contentType: app.name + ':poll-response',
-            data: data
-        });
+        var responseContent = contextLib.run({
+            user: {
+                login: 'su',
+                userStore: 'system'
+            }
+        }, function() {return createResponse(params, pollContent, user)});
+        log.info('responseContent is: ');
+
     } catch(e) {
         log.info(e.message);
-        return error('Failed to create response content.');
+        return error('Failed to create poll response content.');
     }
 
     var results = getResults(pollContent);
@@ -155,6 +153,28 @@ function handlePost(req) {
         body: body
     }
 
+}
+
+function createResponse(params, pollContent, user) {
+    var responseContent = contentLib.create({
+        displayName: params.option || 'response',
+        branch: 'draft',
+        parentPath: pollContent._path,
+        contentType: app.name + ':poll-response',
+        data: {
+                  poll: pollContent._id,
+                  option: params.option,
+                  user: user ? user.key : null //TODO: Add user's IP address as data.ip or set a cookie
+              }
+    });
+
+    var published = contentLib.publish({
+        keys: [responseContent._id],
+        sourceBranch: 'draft',
+        targetBranch: 'master'
+    });
+
+    return responseContent || null;
 }
 
 // Make sure some smartass didn't change the input value

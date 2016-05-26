@@ -21,8 +21,8 @@
                 </label>
             </div>
 
-            <button type="submit" data-th-if="${!closed}">Vote</button>
-
+            <button data-th-if="${!closed} and ${!requireLogin}" type="submit">Vote</button>
+            <div data-th-if="${requireLogin}">Log in to vote</div>
             <div>
                 <span class="total" data-th-text="${total}"></span>
                 <span class="ends" data-th-text="${expires}"></span>
