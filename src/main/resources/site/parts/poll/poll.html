@@ -1,12 +1,12 @@
 <div class="p-poll widget">
-    <h1 class="widget-title">Poll</h1>
+    <h3 data-th-if="${poll} and ${poll.data.title}" class="widget-title" data-th-text="${poll.data.title}">Poll</h3>
     <div data-th-if="${!poll}">
         <h3>Configure poll</h3>
     </div>
 
     <div data-th-if="${poll}">
 
-        <div data-th-text="${poll.data.question}"></div>
+        <div data-th-text="${poll.displayName}"></div>
         <form data-th-action="${action}" method="post" data-th-id="${id}" data-th-attr="data-poll-id=${id}" class="poll-form">
             <div class="error-message"></div>
 
