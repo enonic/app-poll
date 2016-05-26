@@ -8,7 +8,6 @@ var util = require('/lib/enonic/util');
 var moment = require('/assets/momentjs/2.12.0/min/moment-with-locales.min.js');
 
 exports.get = handleGet;
-
 exports.post = handlePost;
 
 function handleGet(req) {
@@ -59,61 +58,6 @@ function handleGet(req) {
     }
 
     return renderView();
-}
-
-function createCookie(poll, cookies) {
-    if(!poll) {
-        return null;
-    }
-    var cookie = {};
-    cookie.rand = {
-        value: cookies.rand ? cookies.rand : Math.floor(Math.random() * 10000000),
-        maxAge: 60 * 60 * 24 * 365, // 365 days
-        path: '/'
-    }
-
-    return cookie;
-}
-
-// If the poll is closed or expired show final results, else show time to expire, else if open and no expiration date show nothing.
-function getExpires(closed, expires) {
-    if(closed) {
-        return 'Final results';
-    }
-    if(!expires) {
-        return '';
-    }
-    return ' - Closes ' + moment(expires).fromNow();
-}
-
-function isPollClosed(poll) {
-    var date = poll.data.expires ? moment(poll.data.expires) : null;
-    if(poll.data.closed || ( date && moment.now() > date)) {
-        return true;
-    }
-
-    return false;
-}
-
-//Check if logged in user already submitted.
-function hasResponded(poll, cookies) {
-
-    var user = auth.getUser();
-    if(user || cookies.rand) {
-        if(!user) {
-            user = {};
-        }
-        var response = contentLib.query({
-            count: 1,
-            query: '_parentPath = "/content' + poll._path + '" AND (data.user = "' + user.key + '" OR data.cookie = "' + cookies.rand + '")',
-            contentTypes: [app.name + ':poll-response']
-        });
-
-        if(response.total > 0) {
-            return true;
-        }
-    }
-    return false;
 }
 
 function handlePost(req) {
@@ -171,6 +115,7 @@ function handlePost(req) {
 
 }
 
+// Create and publish the response content
 function createResponse(params, pollContent, user, cookies) {
     var responseContent = contentLib.create({
         displayName: params.option || 'response',
@@ -216,14 +161,12 @@ function getResultCount(results, pollOptions) {
         choice.count = 0;
 
         results.aggregations.options.buckets.map(function(bucket, n) {
-
             if(option.toLowerCase() == bucket.key) {
                 choice.count = bucket.docCount;
             }
         });
 
         choice.percent = Math.round((choice.count / results.total) * 100).toString();
-
         options.push(choice);
     });
     return options;
@@ -249,4 +192,60 @@ function getResults(pollContent) {
     });
 
     return result || null;
+}
+
+// Create a random identifier cookie for each visitor to prevent duplicate entries.
+function createCookie(poll, cookies) {
+    if(!poll) {
+        return null;
+    }
+    var cookie = {};
+    cookie.rand = {
+        value: cookies.rand ? cookies.rand : Math.floor(Math.random() * 10000000).toString() + Math.floor(Math.random() * 10000000).toString(),
+        maxAge: 60 * 60 * 24 * 365, // 365 days
+        path: '/'
+    }
+
+    return cookie;
+}
+
+// If the poll is closed or expired show final results, else show time to expire, else if open and no expiration date show nothing.
+function getExpires(closed, expires) {
+    if(closed) {
+        return 'Final results';
+    }
+    if(!expires) {
+        return '';
+    }
+    return ' - Closes ' + moment(expires).fromNow();
+}
+
+function isPollClosed(poll) {
+    var date = poll.data.expires ? moment(poll.data.expires) : null;
+    if(poll.data.closed || ( date && moment.now() > date)) {
+        return true;
+    }
+
+    return false;
+}
+
+//Check if logged in user already submitted.
+function hasResponded(poll, cookies) {
+
+    var user = auth.getUser();
+    if(user || cookies.rand) {
+        if(!user) {
+            user = {};
+        }
+        var response = contentLib.query({
+            count: 1,
+            query: '_parentPath = "/content' + poll._path + '" AND (data.user = "' + user.key + '" OR data.cookie = "' + cookies.rand + '")',
+            contentTypes: [app.name + ':poll-response']
+        });
+
+        if(response.total > 0) {
+            return true;
+        }
+    }
+    return false;
 }

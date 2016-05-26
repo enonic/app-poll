@@ -19,12 +19,7 @@
     position: relative;
     padding: 0 5px;
 }
-.p-poll .result-percent {
 
-}
-.p-poll .result-name {
-
-}
 .p-poll button[type="submit"] {
     transition: all .5s cubic-bezier(0.5,1.2,.5,1.2);
     width: 100%;
