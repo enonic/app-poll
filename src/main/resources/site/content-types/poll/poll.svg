@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="" pageAlignment="none" x="0" y="0" width="800" height="800" viewBox="0 0 800 800" enable-background="new 0 0 800 800" xml:space="preserve">
+  <defs/>
+  <g type="LAYER" name="workspace" id="workspace" locked="true"/>
+  <g type="LAYER" name="Layer 01" id="Layer 01">
+    <path transform="matrix(1 0 0 1 130 235)" width="75" height="75" stroke-width="1" stroke-miterlimit="3" stroke="none" fill="#000000" d="M0 35.62C0 15.95 15.95 0 35.62 0 55.29 0 71.24 15.95 71.24 35.62 71.24 55.29 55.29 71.24 35.62 71.24 15.95 71.24 0 55.29 0 35.62Z"/>
+    <path transform="matrix(1 0 0 1 130 360)" width="75" height="75" stroke-width="1" stroke-miterlimit="3" stroke="none" fill="#000000" d="M0 35.62C0 15.95 15.95 0 35.62 0 55.29 0 71.24 15.95 71.24 35.62 71.24 55.29 55.29 71.24 35.62 71.24 15.95 71.24 0 55.29 0 35.62Z"/>
+    <path transform="matrix(1 0 0 1 130 485)" width="75" height="75" stroke-width="1" stroke-miterlimit="3" stroke="none" fill="#000000" d="M0 35.62C0 15.95 15.95 0 35.62 0 55.29 0 71.24 15.95 71.24 35.62 71.24 55.29 55.29 71.24 35.62 71.24 15.95 71.24 0 55.29 0 35.62Z"/>
+    <path transform="matrix(1 0 0 1 130 610)" width="75" height="75" stroke-width="1" stroke-miterlimit="3" stroke="none" fill="#000000" d="M0 35.62C0 15.95 15.95 0 35.62 0 55.29 0 71.24 15.95 71.24 35.62 71.24 55.29 55.29 71.24 35.62 71.24 15.95 71.24 0 55.29 0 35.62Z"/>
+    <path transform="matrix(1 0 0 1 123.95369545859302 100)" width="570" height="71.24" stroke-miterlimit="3" stroke="none" fill="#000000" d="M0 0L569.9 0 569.9 71.24 0 71.24 0 0Z"/>
+    <path transform="matrix(1 0 0 1 220 238.64648263579699)" width="215" height="71.24" stroke-miterlimit="3" stroke="none" fill="#000000" d="M0 0L213.71 0 213.71 71.24 0 71.24 0 0Z"/>
+    <path transform="matrix(1 0 0 1 220.0000000000005 365.44968833481755)" width="284.95" height="71" stroke-miterlimit="3" stroke="none" fill="#000000" d="M0 0L284.95 0 284.95 71.24 0 71.24 0 0Z"/>
+    <path transform="matrix(1 0 0 1 220 488.6910062333036)" width="178" height="71" stroke-miterlimit="3" stroke="none" fill="#000000" d="M0 0L178.09 0 178.09 71.24 0 71.24 0 0Z"/>
+    <path transform="matrix(1 0 0 1 220 614.9999999999998)" width="320" height="71" stroke-miterlimit="3" stroke="none" fill="#000000" d="M0 0L320.57 0 320.57 71.24 0 71.24 0 0Z"/>
+  </g>
+</svg>
