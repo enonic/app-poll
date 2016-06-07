@@ -126,7 +126,7 @@ function createResponse(params, pollContent, user, cookies) {
             poll: pollContent._id,
             option: params.option,
             user: user ? user.key : null,
-            cookie: cookies['com.enonic.app.poll']
+            cookie: cookies[app.name]
         }
     });
 
@@ -200,8 +200,8 @@ function createCookie(poll, cookies) {
         return null;
     }
     var cookie = {};
-    cookie['com.enonic.app.poll'] = {
-        value: cookies['com.enonic.app.poll'] ? cookies['com.enonic.app.poll'] : generateUUID(),
+    cookie[app.name] = {
+        value: cookies[app.name] ? cookies[app.name] : generateUUID(),
         maxAge: 60 * 60 * 24 * 365, // 365 days
         path: '/'
     }
@@ -245,13 +245,13 @@ function isPollClosed(poll) {
 function hasResponded(poll, cookies) {
 
     var user = auth.getUser();
-    if(user || cookies['com.enonic.app.poll']) {
+    if(user || cookies[app.name]) {
         if(!user) {
             user = {};
         }
         var response = contentLib.query({
             count: 1,
-            query: '_parentPath = "/content' + poll._path + '" AND (data.user = "' + user.key + '" OR data.cookie = "' + cookies['com.enonic.app.poll'] + '")',
+            query: '_parentPath = "/content' + poll._path + '" AND (data.user = "' + user.key + '" OR data.cookie = "' + cookies[app.name] + '")',
             contentTypes: [app.name + ':poll-response']
         });
 
