@@ -200,13 +200,25 @@ function createCookie(poll, cookies) {
         return null;
     }
     var cookie = {};
-    cookie.rand = {
-        value: cookies.rand ? cookies.rand : Math.floor(Math.random() * 10000000).toString() + Math.floor(Math.random() * 10000000).toString(),
+    cookie['com.enonic.app.poll'] = {
+        value: cookies['com.enonic.app.poll'] ? cookies['com.enonic.app.poll'] : generateUUID(),
         maxAge: 60 * 60 * 24 * 365, // 365 days
         path: '/'
     }
 
     return cookie;
+}
+
+// Get a random value for the cookie
+function generateUUID(){
+    var d = Date.now();
+
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+    return uuid;
 }
 
 // If the poll is closed or expired show final results, else show time to expire, else if open and no expiration date show nothing.
