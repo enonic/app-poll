@@ -126,7 +126,7 @@ function createResponse(params, pollContent, user, cookies) {
             poll: pollContent._id,
             option: params.option,
             user: user ? user.key : null,
-            cookie: cookies.rand
+            cookie: cookies['com.enonic.app.poll']
         }
     });
 
@@ -245,13 +245,13 @@ function isPollClosed(poll) {
 function hasResponded(poll, cookies) {
 
     var user = auth.getUser();
-    if(user || cookies.rand) {
+    if(user || cookies['com.enonic.app.poll']) {
         if(!user) {
             user = {};
         }
         var response = contentLib.query({
             count: 1,
-            query: '_parentPath = "/content' + poll._path + '" AND (data.user = "' + user.key + '" OR data.cookie = "' + cookies.rand + '")',
+            query: '_parentPath = "/content' + poll._path + '" AND (data.user = "' + user.key + '" OR data.cookie = "' + cookies['com.enonic.app.poll'] + '")',
             contentTypes: [app.name + ':poll-response']
         });
 
