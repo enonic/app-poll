@@ -1,16 +1,16 @@
-$(document).ready(function() {
+$j(document).ready(function() {
 
-    var pollElements = $('[data-poll-id]');
+    var pollElements = $j('[data-poll-id]');
 
-    $('.poll-form').on('submit', function(e) {
+    $j('.poll-form').on('submit', function(e) {
         e.preventDefault();
 
-        var form = $(this);
+        var form = $j(this);
         var option = form.find('input[name=option]:checked');
 
         console.log(option.val());
 
-        $.ajax({
+        $j.ajax({
             type: 'POST',
             url: form.attr('action'),
             data: {
@@ -28,7 +28,7 @@ $(document).ready(function() {
 
                 var labels = form.find('.poll-choice');
                 labels.each(function(i) {
-                    var label = $(this);
+                    var label = $j(this);
                     label.find('.background').css('width', data.choices[i].percent + '%')
                     label.find('.result-percent').html(data.choices[i].percent + '%').css('display','inline');
                 });

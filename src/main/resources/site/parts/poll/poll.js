@@ -21,14 +21,11 @@ function handleGet(req) {
         var body = thymeleaf.render( resolve('poll.html'), createModel() );
 
         var pageContributions = {
-            headEnd: ['<link rel="stylesheet" href="' + portal.assetUrl({path: 'css/polls.css'}) + '" type="text/css" media="all">'],
+            headEnd: ['<link rel="stylesheet" href="' + portal.assetUrl({path: 'css/polls.css'}) + '" type="text/css" media="all">',
+                '<script src="' + portal.assetUrl({path: 'jquery/2.2.4/jquery.min.js'}) + '"></script>',
+                '<script>var $j = jQuery.noConflict(true);</script>'],
             bodyEnd: ['<script src="' + portal.assetUrl({path: 'js/polls.js'}) + '"></script>']
         };
-
-        // Include jQuery if it's set in the app config.
-        if(portal.getSiteConfig().includeJquery) {
-            pageContributions.headEnd.push('<script src="' + portal.assetUrl({path: 'jquery/2.2.4/jquery.min.js'}) + '"></script>');
-        }
 
         return {
             body: body,
