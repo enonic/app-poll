@@ -48,7 +48,7 @@ function handleGet(req) {
         model.expires = getExpires(closed, poll.data.expires);
         model.closed = closed || hasResponded(poll, req.cookies);
         model.total = results ? results.total + ' votes' : '0 votes';
-        model.options = getResultCount(results, util.data.forceArray(poll.data.options));
+        model.options = getResultCount(results, util.data.forceArray(poll.data.options), model.closed);
         model.requireLogin = poll.data.requireLogin && !user;
 
         return model;
@@ -96,7 +96,7 @@ function handlePost(req) {
     var body = {};
     body.success = true;
     body.total = results.total;
-    body.choices = getResultCount(results, pollOptions);;
+    body.choices = getResultCount(results, pollOptions, true);;
 
     function error(message) {
         return {
@@ -150,8 +150,10 @@ function isValidOption(choice, pollOptions) {
 }
 
 // Get an array of options with counts
-function getResultCount(results, pollOptions) {
+function getResultCount(results, pollOptions, showWinner) {
     var options = [];
+    var highest = 0;
+
     pollOptions.map(function(option, i) {
         var choice = {};
         choice.value = option;
@@ -164,8 +166,19 @@ function getResultCount(results, pollOptions) {
         });
 
         choice.percent = Math.round((choice.count / results.total) * 100).toString();
+        if(choice.count >= highest) {
+            highest = choice.count;
+        }
         options.push(choice);
     });
+    if(showWinner) {
+        options.map(function(option, i) {
+            if(option.count == highest) {
+                option.winner = 'poll-winner';
+            }
+        });
+    }
+
     return options;
 }
 

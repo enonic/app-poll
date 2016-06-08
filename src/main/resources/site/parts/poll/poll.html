@@ -12,9 +12,9 @@
 
             <div data-th-each="option : ${options}" data-th-remove="tag">
                 <label class="poll-choice">
-                    <span class="background" data-th-style="${closed} ? 'width:' + ${option.percent} + '%' : ''"></span>
+                    <span class="poll-background" data-th-classappend="${option.winner}" data-th-style="${closed} ? 'width:' + ${option.percent} + '%' : ''"></span>
                     <input type="radio" name="option" data-th-value="${option.value}" class="poll-option" data-th-style="${closed}? 'display:none;' : ''"/>
-                    <span class="result">
+                    <span class="poll-result">
                         <span class="result-percent" data-th-text="${option.percent} + '%'" data-th-style="${!closed}? 'display:none;' : ''"></span>
                         <span class="result-name" data-th-text="${option.value}"></span>
                     </span>

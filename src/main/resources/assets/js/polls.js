@@ -8,8 +8,6 @@ $j(document).ready(function() {
         var form = $j(this);
         var option = form.find('input[name=option]:checked');
 
-        console.log(option.val());
-
         $j.ajax({
             type: 'POST',
             url: form.attr('action'),
@@ -29,8 +27,12 @@ $j(document).ready(function() {
                 var labels = form.find('.poll-choice');
                 labels.each(function(i) {
                     var label = $j(this);
-                    label.find('.background').css('width', data.choices[i].percent + '%')
+                    label.find('.poll-background').css('width', data.choices[i].percent + '%')
                     label.find('.result-percent').html(data.choices[i].percent + '%').css('display','inline');
+                    if(data.choices[i].winner) {
+                        label.find('.poll-background').addClass('poll-winner');
+                    }
+
                 });
                 form.find('button[type=submit]').hide('slow');
                 form.find('.total').html(data.total + ' votes');
