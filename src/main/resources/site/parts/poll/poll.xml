@@ -11,5 +11,11 @@
         <allowPath>${site}/*</allowPath>
       </config>
     </input>
+    <input type="CheckBox" name="excludeCSS">
+      <label>Use custom styling</label>
+    </input>
+    <input type="TextLine" name="containerClass">
+      <label>Add CSS class to poll container</label>
+    </input>
   </config>
 </part>

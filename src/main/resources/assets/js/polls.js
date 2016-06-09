@@ -28,14 +28,14 @@ $j(document).ready(function() {
                 labels.each(function(i) {
                     var label = $j(this);
                     label.find('.poll-background').css('width', data.choices[i].percent + '%')
-                    label.find('.result-percent').html(data.choices[i].percent + '%').css('display','inline');
+                    label.find('.poll-result-percent').html(data.choices[i].percent + '%').css('display','inline');
                     if(data.choices[i].winner) {
                         label.find('.poll-background').addClass('poll-winner');
                     }
 
                 });
                 form.find('button[type=submit]').hide('slow');
-                form.find('.total').html(data.total + ' votes');
+                form.find('.poll-total').html(data.total + ' votes');
             }
 
         }).error(function(xhr, status, error) {

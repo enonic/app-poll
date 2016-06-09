@@ -1,10 +1,11 @@
 .p-poll {
-    padding: 15px;
+    padding: 25px;
 }
 .p-poll .poll-choice {
     display: block;
     position: relative;
     margin-bottom: 5px;
+    font-weight: normal;
 }
 .p-poll .poll-background {
     position: absolute;
@@ -26,14 +27,20 @@
     position: relative;
     padding: 0 5px;
 }
-.p-poll .result-percent {
+.p-poll .poll-result-percent {
     font-weight: bold;
 }
 
 .p-poll button[type="submit"] {
     transition: all .5s cubic-bezier(0.5,1.2,.5,1.2);
-    width: 100%;
+    width: 100px;
+    margin-bottom: 15px;
+    display: block;
 }
 .p-poll .error-message {
     color: red;
+}
+.p-poll .poll-configure {
+    margin: 20px;
+    text-align: center;
 }

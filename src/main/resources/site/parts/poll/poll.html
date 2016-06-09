@@ -1,12 +1,12 @@
-<div class="p-poll widget">
-    <h3 data-th-if="${poll} and ${poll.data.title}" class="widget-title" data-th-text="${poll.data.title}">Poll</h3>
-    <div data-th-if="${!poll}">
-        <h3>Configure poll</h3>
+<div class="p-poll" data-th-classappend="${containerClass}">
+    <h3 data-th-if="${poll} and ${title}" class="widget-title" data-th-text="${title}">Poll</h3>
+    <div data-th-if="${!poll}" data-th-remove="tag">
+        <h3 class="poll-configure">Configure poll</h3>
     </div>
 
     <div data-th-if="${poll}">
 
-        <p data-th-text="${poll.displayName}"></p>
+        <p class="poll-question" data-th-text="${question}"></p>
         <form data-th-action="${action}" method="post" data-th-id="${id}" data-th-attr="data-poll-id=${id}" class="poll-form">
             <div class="error-message"></div>
 
@@ -15,17 +15,17 @@
                     <span class="poll-background" data-th-classappend="${option.winner}" data-th-style="${closed} ? 'width:' + ${option.percent} + '%' : ''"></span>
                     <input type="radio" name="option" data-th-value="${option.value}" class="poll-option" data-th-style="${closed}? 'display:none;' : ''"/>
                     <span class="poll-result">
-                        <span class="result-percent" data-th-text="${option.percent} + '%'" data-th-style="${!closed}? 'display:none;' : ''"></span>
-                        <span class="result-name" data-th-text="${option.value}"></span>
+                        <span class="poll-result-percent" data-th-text="${option.percent} + '%'" data-th-style="${!closed}? 'display:none;' : ''"></span>
+                        <span class="poll-result-name" data-th-text="${option.value}"></span>
                     </span>
                 </label>
             </div>
 
             <button data-th-if="${!closed} and ${!requireLogin}" type="submit">Vote</button>
-            <div data-th-if="${requireLogin}">Log in to vote</div>
+            <div data-th-if="${requireLogin}" class="poll-login-message">Log in to vote</div>
             <p class="poll-info">
-                <span class="total" data-th-text="${total}"></span>
-                <span class="ends" data-th-text="${expires}"></span>
+                <span class="poll-total" data-th-text="${total}"></span>
+                <span class="poll-ends" data-th-text="${expires}"></span>
             </p>
 
         </form>

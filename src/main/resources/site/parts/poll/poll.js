@@ -21,11 +21,15 @@ function handleGet(req) {
         var body = thymeleaf.render( resolve('poll.html'), createModel() );
 
         var pageContributions = {
-            headEnd: ['<link rel="stylesheet" href="' + portal.assetUrl({path: 'css/polls.css'}) + '" type="text/css" media="all">',
+            headEnd: [
                 '<script src="' + portal.assetUrl({path: 'jquery/2.2.4/jquery.min.js'}) + '"></script>',
                 '<script>var $j = jQuery.noConflict(true);</script>'],
             bodyEnd: ['<script src="' + portal.assetUrl({path: 'js/polls.js'}) + '"></script>']
         };
+
+        if(!config.excludeCSS) {
+            pageContributions.headEnd.push('<link rel="stylesheet" href="' + portal.assetUrl({path: 'css/polls.css'}) + '" type="text/css" media="all">');
+        }
 
         return {
             body: body,
@@ -35,15 +39,22 @@ function handleGet(req) {
     }
 
     function createModel() {
-        if(!poll) {
-            return null;
-        }
+
         var model = {};
+
+        model.poll = poll ? true : false;
+        model.containerClass = config.containerClass;
+
+        if(!poll) {
+            return model;
+        }
+
         var results = getResults(poll);
         var closed = isPollClosed(poll);
 
-        model.poll = poll;
         model.id = 'poll-' + component.path.replace(/\/+/g, '-');
+        model.title = poll.data.title;
+        model.question = poll.displayName;
         model.action = portal.componentUrl({component: component._path});
         model.expires = getExpires(closed, poll.data.expires);
         model.closed = closed || hasResponded(poll, req.cookies);
