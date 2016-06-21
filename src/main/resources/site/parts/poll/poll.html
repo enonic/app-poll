@@ -1,5 +1,5 @@
 <div class="p-poll" data-th-classappend="${containerClass}">
-    <h3 data-th-if="${poll} and ${title}" class="widget-title" data-th-text="${title}">Poll</h3>
+    <h3 data-th-if="${poll} and ${heading}" class="poll-heading" data-th-text="${heading}">Poll</h3>
     <div data-th-if="${!poll}" data-th-remove="tag">
         <h3 class="poll-configure">Configure poll</h3>
     </div>

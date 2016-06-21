@@ -54,7 +54,7 @@ function handleGet(req) {
         var closed = isPollClosed(poll);
 
         model.id = 'poll-' + component.path.replace(/\/+/g, '-');
-        model.title = poll.data.title;
+        model.heading = poll.data.heading;
         model.question = poll.displayName;
         model.action = portal.componentUrl({component: component._path});
         model.expires = getExpires(closed, poll.data.expires);

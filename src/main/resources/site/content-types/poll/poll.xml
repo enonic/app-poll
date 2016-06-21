@@ -6,8 +6,8 @@
     <field-set name="basic">
       <label>Poll</label>
       <items>
-        <input type="TextLine" name="title">
-          <label>Title</label>
+        <input type="TextLine" name="heading">
+          <label>heading</label>
           <default>Poll</default>
           <occurrences minimum="0" maximum="1"/>
         </input>
