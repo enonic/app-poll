@@ -14,6 +14,7 @@ function handleGet(req) {
 
     var component = portal.getComponent();
     var config = component.config;
+    var siteConfig = portal.getSiteConfig();
     var user = auth.getUser();
     var poll = contentLib.get({key: config.poll || 1});
 
@@ -27,7 +28,7 @@ function handleGet(req) {
             bodyEnd: ['<script src="' + portal.assetUrl({path: 'js/polls.js'}) + '"></script>']
         };
 
-        if(!config.excludeCSS) {
+        if(!siteConfig.excludeCSS) {
             pageContributions.headEnd.push('<link rel="stylesheet" href="' + portal.assetUrl({path: 'css/polls.css'}) + '" type="text/css" media="all">');
         }
 
@@ -43,7 +44,7 @@ function handleGet(req) {
         var model = {};
 
         model.poll = poll ? true : false;
-        model.containerClass = config.containerClass;
+        model.containerClass = siteConfig.containerClass;
 
         if(!poll) {
             return model;

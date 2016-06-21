@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
   <config>
+    <input type="CheckBox" name="excludeCSS">
+      <label>Use custom styling</label>
+    </input>
+    <input type="TextLine" name="containerClass">
+      <label>Add CSS class to poll containers</label>
+    </input>
   </config>
 </site>
