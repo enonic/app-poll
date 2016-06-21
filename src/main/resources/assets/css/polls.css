@@ -1,6 +1,13 @@
 .p-poll {
     padding: 25px;
 }
+.p-poll span {
+    display: inline;
+}
+.p-poll input.poll-option {
+    display: inline;
+    width: auto;
+}
 .p-poll .poll-choice {
     display: block;
     position: relative;
