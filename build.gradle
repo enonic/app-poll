@@ -12,7 +12,6 @@ buildscript {
     }
 }
 
-apply plugin: 'maven'
 apply plugin: 'com.enonic.xp.app'
 
 app {
@@ -40,13 +39,5 @@ repositories {
     jcenter()
     maven {
         url 'http://repo.enonic.com/public'
-    }
-}
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository( url: 'http://repo.enonic.com/artifactory/public' )
-        }
     }
 }
