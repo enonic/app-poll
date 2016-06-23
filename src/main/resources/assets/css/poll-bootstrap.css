@@ -1,6 +1,3 @@
-.p-poll {
-    padding: 25px;
-}
 .p-poll span {
     display: inline;
 }
@@ -21,7 +18,7 @@
     width: 0;
     height: 100%;
     background-color: #DFDFDF;
-    transition: all .5s cubic-bezier(0.5,1.2,0.5,1.2);
+    transition: all .5s cubic-bezier(0.5,1.2,.5,1.2);
     border-radius: 5px;
 }
 .p-poll .poll-winner {
@@ -39,17 +36,13 @@
 }
 
 .p-poll button[type="submit"] {
-    transition: width .5s cubic-bezier(0.5,1.2,0.5,1.2);
+    transition: width .5s cubic-bezier(0.5,1.2,.5,1.2);
     width: 100px;
     margin-bottom: 15px;
     display: block;
 }
 .p-poll .error-message {
     color: red;
-}
-.p-poll .poll-configure {
-    margin: 20px;
-    text-align: center;
 }
 .p-poll .poll-info {
     margin-top: 15px;

@@ -15,6 +15,7 @@ function handleGet(req) {
     var component = portal.getComponent();
     var config = component.config;
     var siteConfig = portal.getSiteConfig();
+    var pollCSS = siteConfig.pollCSS;
     var user = auth.getUser();
     var poll = contentLib.get({key: config.poll || 1});
 
@@ -28,8 +29,11 @@ function handleGet(req) {
             bodyEnd: ['<script src="' + portal.assetUrl({path: 'js/polls.js'}) + '"></script>']
         };
 
-        if(!siteConfig.excludeCSS) {
+        if(pollCSS == 'default') {
             pageContributions.headEnd.push('<link rel="stylesheet" href="' + portal.assetUrl({path: 'css/polls.css'}) + '" type="text/css" media="all">');
+        }
+        if(pollCSS == 'bootstrap') {
+            pageContributions.headEnd.push('<link rel="stylesheet" href="' + portal.assetUrl({path: 'css/poll-bootstrap.css'}) + '" type="text/css" media="all">');
         }
 
         return {
@@ -45,8 +49,10 @@ function handleGet(req) {
 
         model.poll = poll ? true : false;
         model.containerClass = siteConfig.containerClass;
+        model.bootstrap = (pollCSS == 'bootstrap') ? true : false;
 
         if(!poll) {
+            model.heading = 'Configure poll';
             return model;
         }
 
@@ -54,8 +60,8 @@ function handleGet(req) {
         var closed = isPollClosed(poll);
 
         model.id = 'poll-' + component.path.replace(/\/+/g, '-');
-        model.heading = poll.data.heading;
-        model.question = poll.displayName;
+        model.heading = model.bootstrap && !poll.data.heading ? poll.displayName : poll.data.heading;
+        model.question = model.bootstrap && !poll.data.heading ? null : poll.displayName;
         model.action = portal.componentUrl({component: component._path});
         model.expires = getExpires(closed, poll.data.expires);
         model.closed = closed || hasResponded(poll, req.cookies);
@@ -251,7 +257,7 @@ function getExpires(closed, expires) {
     if(!expires) {
         return '';
     }
-    return ' - Closes ' + moment(expires).fromNow();
+    return 'Closes ' + moment(expires).fromNow();
 }
 
 function isPollClosed(poll) {

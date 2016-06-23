@@ -8,7 +8,6 @@
       <items>
         <input type="TextLine" name="heading">
           <label>heading</label>
-          <default>Poll</default>
           <occurrences minimum="0" maximum="1"/>
         </input>
         <input type="TextLine" name="options">

@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
   <config>
-    <input type="CheckBox" name="excludeCSS">
-      <label>Use custom styling</label>
+    <input type="RadioButton" name="pollCSS">
+      <label>Poll styling</label>
+      <occurrences minimum="1" maximum="1"/>
+      <config>
+        <option value="default">Use default styling</option>
+        <option value="bootstrap">Use Bootstrap markup</option>
+        <option value="none">None</option>
+      </config>
+      <default>default</default>
     </input>
     <input type="TextLine" name="containerClass">
       <label>Add CSS class to poll containers</label>

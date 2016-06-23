@@ -1,34 +1,17 @@
 <div class="p-poll" data-th-classappend="${containerClass}">
-    <h3 data-th-if="${poll} and ${heading}" class="poll-heading" data-th-text="${heading}">Poll</h3>
-    <div data-th-if="${!poll}" data-th-remove="tag">
-        <h3 class="poll-configure">Configure poll</h3>
+
+    <div data-th-if="${bootstrap}" class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title" data-th-text="${heading}"></h3>
+        </div>
+        <div class="panel-body">
+            <div data-th-if="${poll}" data-th-include="form :: form" data-th-remove="tag"></div>
+        </div>
     </div>
 
-    <div data-th-if="${poll}">
-
-        <p class="poll-question" data-th-text="${question}"></p>
-        <form data-th-action="${action}" method="post" data-th-id="${id}" data-th-attr="data-poll-id=${id}" class="poll-form">
-            <div class="error-message"></div>
-
-            <div data-th-each="option : ${options}" data-th-remove="tag">
-                <label class="poll-choice">
-                    <span class="poll-background" data-th-classappend="${option.winner}" data-th-style="${closed} ? 'width:' + ${option.percent} + '%' : ''"></span>
-                    <input type="radio" name="option" data-th-value="${option.value}" class="poll-option" data-th-style="${closed}? 'display:none;' : ''"/>
-                    <span class="poll-result">
-                        <span class="poll-result-percent" data-th-text="${option.percent} + '%'" data-th-style="${!closed}? 'display:none;' : ''"></span>
-                        <span class="poll-result-name" data-th-text="${option.value}"></span>
-                    </span>
-                </label>
-            </div>
-
-            <button data-th-if="${!closed} and ${!requireLogin}" type="submit">Vote</button>
-            <div data-th-if="${requireLogin}" class="poll-login-message">Log in to vote</div>
-            <p class="poll-info">
-                <span class="poll-total" data-th-text="${total}"></span>
-                <span class="poll-ends" data-th-text="${expires}"></span>
-            </p>
-
-        </form>
-
+    <div data-th-if="${!bootstrap}" data-th-remove="tag">
+        <h3 data-th-if="${heading}" data-th-class="${poll} ? 'poll-heading' : 'poll-configure'" data-th-text="${heading}"></h3>
+        <div data-th-if="${poll}" data-th-include=" form :: form" data-th-remove="tag"></div>
     </div>
+
 </div>
