@@ -7,7 +7,7 @@
       <config>
         <option value="default">Use default styling</option>
         <option value="bootstrap">Use Bootstrap markup</option>
-        <option value="none">None</option>
+        <option value="none">None (requires custom styling)</option>
       </config>
       <default>default</default>
     </input>
