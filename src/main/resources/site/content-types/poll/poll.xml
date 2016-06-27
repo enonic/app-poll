@@ -6,10 +6,6 @@
     <field-set name="basic">
       <label>Poll</label>
       <items>
-        <input type="TextLine" name="heading">
-          <label>heading</label>
-          <occurrences minimum="0" maximum="1"/>
-        </input>
         <input type="TextLine" name="options">
           <label>Option</label>
           <occurrences minimum="2" maximum="0"/>

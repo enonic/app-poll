@@ -60,8 +60,8 @@ function handleGet(req) {
         var closed = isPollClosed(poll);
 
         model.id = 'poll-' + component.path.replace(/\/+/g, '-');
-        model.heading = model.bootstrap && !poll.data.heading ? poll.displayName : poll.data.heading;
-        model.question = model.bootstrap && !poll.data.heading ? null : poll.displayName;
+        model.heading = model.bootstrap && !config.heading ? poll.displayName : config.heading;
+        model.question = model.bootstrap && !config.heading ? null : poll.displayName;
         model.action = portal.componentUrl({component: component._path});
         model.expires = getExpires(closed, poll.data.expires);
         model.closed = closed || hasResponded(poll, req.cookies);

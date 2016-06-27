@@ -11,5 +11,9 @@
         <allowPath>${site}/*</allowPath>
       </config>
     </input>
+    <input type="TextLine" name="heading">
+      <label>Optional heading above question</label>
+      <occurrences minimum="0" maximum="1"/>
+    </input>
   </config>
 </part>
