@@ -55,5 +55,8 @@ Have questions? Need help? Visit the [Enonic forum](https://discuss.enonic.com/)
 
 ### 2.0.0
 
-* Response content will no longer be published when in preview mode
-* Moved the heading configuration from the poll content to the poll part config
+* Response content will no longer be published when in preview mode.
+* Moved the heading configuration from the poll content to the poll part config.
+* Fixed a bug that caused NaN to show as the percentage of votes for an option when the poll is closed and the option has no votes.
+* Cookies are now required to submit.
+* Response content name is now the cookie value.

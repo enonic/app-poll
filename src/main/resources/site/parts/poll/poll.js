@@ -162,7 +162,7 @@ function createResponse(params, pollContent, user, context, cookie) {
             targetBranch: 'master'
         });
         if(!published || !published.pushedContents || published.pushedContents.length < 1) {
-            log.error("Failed to publish poll response content.");
+            log.error('Failed to publish poll response content.');
             return null;
         }
     }
