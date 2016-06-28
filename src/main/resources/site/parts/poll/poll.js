@@ -140,16 +140,17 @@ function error(message) {
 
 // Create and publish the response content
 function createResponse(params, pollContent, user, context, cookie) {
+    var userName = user? user.displayName : 'Anonymous';
     var responseContent = contentLib.create({
-        displayName: params.option || 'response',
+        displayName: params.option  + ' - ' + userName,
+        name: cookie,
         branch: 'draft',
         parentPath: pollContent._path,
         contentType: app.name + ':poll-response',
         data: {
             poll: pollContent._id,
             option: params.option,
-            user: user ? user.key : null,
-            cookie: cookie
+            user: user ? user.key : null
         }
     });
 
@@ -198,7 +199,12 @@ function getResultCount(results, pollOptions, showWinner) {
             }
         });
 
-        choice.percent = Math.round((choice.count / results.total) * 100).toString();
+        var percent = Math.round((choice.count / results.total) * 100).toString();
+        if(percent == 'NaN') {
+            percent = '0';
+        }
+
+        choice.percent = percent;
         if(choice.count >= highest) {
             highest = choice.count;
         }
@@ -294,7 +300,7 @@ function hasResponded(poll, cookies) {
         }
         var response = contentLib.query({
             count: 1,
-            query: '_parentPath = "/content' + poll._path + '" AND (data.user = "' + user.key + '" OR data.cookie = "' + cookies[app.name] + '")',
+            query: '_parentPath = "/content' + poll._path + '" AND (data.user = "' + user.key + '" OR _name = "' + cookies[app.name] + '")',
             contentTypes: [app.name + ':poll-response']
         });
 

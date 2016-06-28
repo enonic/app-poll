@@ -23,10 +23,6 @@
           <label>user</label>
           <occurrences minimum="0" maximum="1"/>
         </input>
-        <input type="TextLine" name="cookie">
-          <label>cookie</label>
-          <occurrences minimum="0" maximum="1"/>
-        </input>
       </items>
     </field-set>
   </form>
