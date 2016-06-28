@@ -15,6 +15,7 @@ Interact with your visitors by adding polls to your site
 
 | Version       | XP version |
 | ------------- | ---------- |
+| 2.0.0         | 6.5.0      |
 | 1.0.0         | 6.5.0      |
 
 ## Instructions
@@ -28,6 +29,7 @@ Interact with your visitors by adding polls to your site
 * Checking the "Require login" box will prevent non-logged in users from answering the poll. Only use this if your site has a login page.
 * Add the Poll part to the desired location on the page.
 * Configure the Poll part with the desired poll content.
+* Optionally add a heading to the poll part that will appear above the question.
 * Save and publish the page with the new poll.
 * Close a poll at any time to prevent further entries by editing the Poll content and checking the "Close poll" box. 
 
@@ -39,7 +41,7 @@ require custom CSS rules to your main app's CSS files. If your site uses Bootstr
 Bootstrap panel.
 
 A CSS class can be added to the poll part container element in the app configuration. This can help the poll to match existing styling rules on your 
-website. 
+website without changing CSS. This will only be helpful in certain situations and you'll need to know exactly what class to add based on your website's code.
 
 ## Note
 
@@ -48,3 +50,10 @@ This app uses jQuery with noConflict so it will not interfere with another versi
 ## Troubleshooting
 
 Have questions? Need help? Visit the [Enonic forum](https://discuss.enonic.com/).
+
+## Changelog
+
+### 2.0.0
+
+* Response content will no longer be published when in preview mode
+* Moved the heading configuration from the poll content to the poll part config

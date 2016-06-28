@@ -76,7 +76,6 @@ function handleGet(req) {
 }
 
 function handlePost(req) {
-
     var component = portal.getComponent();
     var config = component.config;
     var params = req.params;
@@ -97,15 +96,19 @@ function handlePost(req) {
     }
 
     try {
+        var context = contextLib.get();
         var responseContent = contextLib.run({
             user: {
                 login: 'su',
                 userStore: 'system'
             }
-        }, function() {return createResponse(params, pollContent, user, req.cookies)});
+        }, function() {return createResponse(params, pollContent, user, context, req.cookies)});
+        if(!responseContent) {
+            return error('Failed to create poll response content.');
+        }
 
     } catch(e) {
-        log.info(e.message);
+        log.error(e.message);
         return error('Failed to create poll response content.');
     }
 
@@ -114,14 +117,7 @@ function handlePost(req) {
     var body = {};
     body.success = true;
     body.total = results.total;
-    body.choices = getResultCount(results, pollOptions, true);;
-
-    function error(message) {
-        return {
-            contentType: 'application/json',
-            body: {error: message}
-        }
-    }
+    body.choices = getResultCount(results, pollOptions, true);
 
     return {
         contentType: 'application/json',
@@ -130,8 +126,15 @@ function handlePost(req) {
 
 }
 
+function error(message) {
+    return {
+        contentType: 'application/json',
+        body: {error: message}
+    };
+}
+
 // Create and publish the response content
-function createResponse(params, pollContent, user, cookies) {
+function createResponse(params, pollContent, user, context, cookies) {
     var responseContent = contentLib.create({
         displayName: params.option || 'response',
         branch: 'draft',
@@ -145,11 +148,18 @@ function createResponse(params, pollContent, user, cookies) {
         }
     });
 
-    var published = contentLib.publish({
-        keys: [responseContent._id],
-        sourceBranch: 'draft',
-        targetBranch: 'master'
-    });
+    // Only publish responses if on the master branch
+    if(context.branch == 'master') {
+        var published = contentLib.publish({
+            keys: [responseContent._id],
+            sourceBranch: 'draft',
+            targetBranch: 'master'
+        });
+        if(!published || !published.pushedContents || published.pushedContents.length < 1) {
+            log.error("Failed to publish poll response content.");
+            return null;
+        }
+    }
 
     return responseContent || null;
 }
@@ -162,7 +172,7 @@ function isValidOption(choice, pollOptions) {
         if (option == choice) {
             valid = true;
         }
-    })
+    });
 
     return valid;
 }
