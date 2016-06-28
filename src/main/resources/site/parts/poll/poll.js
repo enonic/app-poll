@@ -81,6 +81,11 @@ function handlePost(req) {
     var params = req.params;
     var pollContent = contentLib.get({key: config.poll || 1});
     var user = auth.getUser();
+    var cookie = req.cookies ? req.cookies[app.name] : null;
+
+    if(!cookie) {
+        return error('Cookies are required to participate in this poll.');
+    }
 
     if(!pollContent) {
         return error('No poll content.');
@@ -102,7 +107,7 @@ function handlePost(req) {
                 login: 'su',
                 userStore: 'system'
             }
-        }, function() {return createResponse(params, pollContent, user, context, req.cookies)});
+        }, function() {return createResponse(params, pollContent, user, context, cookie)});
         if(!responseContent) {
             return error('Failed to create poll response content.');
         }
@@ -134,7 +139,7 @@ function error(message) {
 }
 
 // Create and publish the response content
-function createResponse(params, pollContent, user, context, cookies) {
+function createResponse(params, pollContent, user, context, cookie) {
     var responseContent = contentLib.create({
         displayName: params.option || 'response',
         branch: 'draft',
@@ -144,7 +149,7 @@ function createResponse(params, pollContent, user, context, cookies) {
             poll: pollContent._id,
             option: params.option,
             user: user ? user.key : null,
-            cookie: cookies[app.name]
+            cookie: cookie
         }
     });
 
