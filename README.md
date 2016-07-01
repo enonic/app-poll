@@ -60,3 +60,4 @@ Have questions? Need help? Visit the [Enonic forum](https://discuss.enonic.com/)
 * Fixed a bug that caused NaN to show as the percentage of votes for an option when the poll is closed and the option has no votes.
 * Cookies are now required to submit.
 * Response content name is now the cookie value.
+* Add icon for poll response content.
