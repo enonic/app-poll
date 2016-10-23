@@ -15,6 +15,7 @@ Interact with your visitors by adding polls to your site
 
 | Version       | XP version |
 | ------------- | ---------- |
+| 2.1.0         | 6.7.0      |
 | 2.0.0         | 6.5.0      |
 | 1.0.0         | 6.5.0      |
 
@@ -36,8 +37,8 @@ Interact with your visitors by adding polls to your site
 ## Styling
 
 The app configuration has three options for styling: "Default", "Bootstrap", and "None". If the default styling does not match the look of your site 
-then it can be overridden with custom CSS. The default styling can be completely removed by selecting "None" in the app configuration. This will 
-require custom CSS rules to your main app's CSS files. If your site uses Bootstrap then the "Bootstrap markup" setting will render the poll in a 
+then it can be overridden with custom CSS. The default styling can be completely removed by selecting "None" in the app configuration but this will 
+require custom CSS rules in your main app's CSS files. If your site uses Bootstrap then the "Bootstrap markup" setting will render the poll in a 
 Bootstrap panel.
 
 A CSS class can be added to the poll part container element in the app configuration. This can help the poll to match existing styling rules on your 
@@ -52,6 +53,13 @@ This app uses jQuery with noConflict so it will not interfere with another versi
 Have questions? Need help? Visit the [Enonic forum](https://discuss.enonic.com/).
 
 ## Changelog
+
+### 2.1.0
+
+* Added app icon.
+* Added app description.
+* Performance improvements.
+* Added help text to forms.
 
 ### 2.0.0
 

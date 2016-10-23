@@ -1,33 +1,32 @@
 // libs
-var auth = require('/lib/xp/auth');
-var contentLib = require('/lib/xp/content');
-var contextLib = require('/lib/xp/context');
-var portal = require('/lib/xp/portal');
-var thymeleaf = require('/lib/xp/thymeleaf');
-var util = require('/lib/enonic/util');
-var moment = require('/assets/momentjs/2.12.0/min/moment-with-locales.min.js');
+var auth = require('/lib/xp/auth'),
+    contentLib = require('/lib/xp/content'),
+    contextLib = require('/lib/xp/context'),
+    portal = require('/lib/xp/portal'),
+    thymeleaf = require('/lib/xp/thymeleaf'),
+    util = require('/lib/enonic/util'),
+    moment = require('/assets/momentjs/2.12.0/min/moment-with-locales.min.js');
 
 exports.get = handleGet;
 exports.post = handlePost;
 
 function handleGet(req) {
 
-    var component = portal.getComponent();
-    var config = component.config;
-    var siteConfig = portal.getSiteConfig();
-    var pollCSS = siteConfig.pollCSS;
-    var user = auth.getUser();
-    var poll = contentLib.get({key: config.poll || 1});
+    var component = portal.getComponent(),
+        config = component.config,
+        siteConfig = portal.getSiteConfig(),
+        pollCSS = siteConfig.pollCSS,
+        user = auth.getUser(),
+        poll = contentLib.get({key: config.poll || 1});
 
     function renderView() {
-        var body = thymeleaf.render( resolve('poll.html'), createModel() );
-
-        var pageContributions = {
-            headEnd: [
-                '<script src="' + portal.assetUrl({path: 'jquery/2.2.4/jquery.min.js'}) + '"></script>',
-                '<script>var $j = jQuery.noConflict(true);</script>'],
-            bodyEnd: ['<script src="' + portal.assetUrl({path: 'js/polls.js'}) + '"></script>']
-        };
+        var body = thymeleaf.render( resolve('poll.html'), createModel() ),
+            pageContributions = {
+                headEnd: [
+                    '<script src="' + portal.assetUrl({path: 'jquery/2.2.4/jquery.min.js'}) + '"></script>',
+                    '<script>var $j = jQuery.noConflict(true);</script>'],
+                bodyEnd: ['<script src="' + portal.assetUrl({path: 'js/polls.js'}) + '"></script>']
+            };
 
         if(pollCSS == 'default') {
             pageContributions.headEnd.push('<link rel="stylesheet" href="' + portal.assetUrl({path: 'css/polls.css'}) + '" type="text/css" media="all">');
@@ -56,8 +55,8 @@ function handleGet(req) {
             return model;
         }
 
-        var results = getResults(poll);
-        var closed = isPollClosed(poll);
+        var results = getResults(poll),
+            closed = isPollClosed(poll);
 
         model.id = 'poll-' + component.path.replace(/\/+/g, '-');
         model.heading = model.bootstrap && !config.heading ? poll.displayName : config.heading;
@@ -76,12 +75,12 @@ function handleGet(req) {
 }
 
 function handlePost(req) {
-    var component = portal.getComponent();
-    var config = component.config;
-    var params = req.params;
-    var pollContent = contentLib.get({key: config.poll || 1});
-    var user = auth.getUser();
-    var cookie = req.cookies ? req.cookies[app.name] : null;
+    var component = portal.getComponent(),
+        config = component.config,
+        params = req.params,
+        pollContent = contentLib.get({key: config.poll || 1}),
+        user = auth.getUser(),
+        cookie = req.cookies ? req.cookies[app.name] : null;
 
     if(!cookie) {
         return error('Cookies are required to participate in this poll.');
@@ -101,13 +100,14 @@ function handlePost(req) {
     }
 
     try {
-        var context = contextLib.get();
-        var responseContent = contextLib.run({
-            user: {
-                login: 'su',
-                userStore: 'system'
-            }
-        }, function() {return createResponse(params, pollContent, user, context, cookie)});
+        var context = contextLib.get(),
+            responseContent = contextLib.run({
+                user: {
+                    login: 'su',
+                    userStore: 'system'
+                }
+            }, function() {return createResponse(params, pollContent, user, context, cookie)});
+
         if(!responseContent) {
             return error('Failed to create poll response content.');
         }
@@ -117,9 +117,9 @@ function handlePost(req) {
         return error('Failed to create poll response content.');
     }
 
-    var results = getResults(pollContent);
+    var results = getResults(pollContent),
+        body = {};
 
-    var body = {};
     body.success = true;
     body.total = results.total;
     body.choices = getResultCount(results, pollOptions, true);
@@ -185,8 +185,8 @@ function isValidOption(choice, pollOptions) {
 
 // Get an array of options with counts
 function getResultCount(results, pollOptions, showWinner) {
-    var options = [];
-    var highest = 0;
+    var options = [],
+        highest = 0;
 
     pollOptions.map(function(option, i) {
         var choice = {};

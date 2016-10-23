@@ -3,6 +3,7 @@
   <config>
     <input type="RadioButton" name="pollCSS">
       <label>Poll styling</label>
+      <help-text>See documentation github.com/enonic/app-poll</help-text>
       <occurrences minimum="1" maximum="1"/>
       <config>
         <option value="default">Use default styling</option>
@@ -13,6 +14,7 @@
     </input>
     <input type="TextLine" name="containerClass">
       <label>Add CSS class to poll containers</label>
+      <help-text>This could help the polls match your site without custom styling if you know what class to use.</help-text>
     </input>
   </config>
 </site>

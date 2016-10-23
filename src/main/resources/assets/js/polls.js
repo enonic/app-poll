@@ -5,8 +5,8 @@ $j(document).ready(function() {
     $j('.poll-form').on('submit', function(e) {
         e.preventDefault();
 
-        var form = $j(this);
-        var option = form.find('input[name=option]:checked');
+        var form = $j(this),
+            option = form.find('input[name=option]:checked');
 
         $j.ajax({
             type: 'POST',
@@ -24,9 +24,11 @@ $j(document).ready(function() {
             } else {
                 form.find('.poll-option').hide();
 
-                var labels = form.find('.poll-choice');
+                var labels = form.find('.poll-choice'),
+                    label;
+
                 labels.each(function(i) {
-                    var label = $j(this);
+                    label = $j(this);
                     label.find('.poll-background').css('width', data.choices[i].percent + '%')
                     label.find('.poll-result-percent').html(data.choices[i].percent + '%').css('display','inline');
                     if(data.choices[i].winner) {
