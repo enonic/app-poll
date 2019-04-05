@@ -3,8 +3,8 @@ var auth = require('/lib/xp/auth'),
     contentLib = require('/lib/xp/content'),
     contextLib = require('/lib/xp/context'),
     portal = require('/lib/xp/portal'),
-    thymeleaf = require('/lib/xp/thymeleaf'),
-    util = require('/lib/enonic/util'),
+    thymeleaf = require('/lib/thymeleaf'),
+    util = require('/lib/util'),
     moment = require('/assets/momentjs/2.12.0/min/moment-with-locales.min.js');
 
 exports.get = handleGet;
