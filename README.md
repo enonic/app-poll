@@ -15,6 +15,7 @@ Interact with your visitors by adding polls to your site
 
 | Version       | XP version |
 | ------------- | ---------- |
+| 3.0.0         | 7.0.0      |
 | 2.1.0         | 6.7.0      |
 | 2.0.0         | 6.5.0      |
 | 1.0.0         | 6.5.0      |
@@ -53,6 +54,10 @@ This app uses jQuery with noConflict so it will not interfere with another versi
 Have questions? Need help? Visit the [Enonic forum](https://discuss.enonic.com/).
 
 ## Changelog
+
+### 3.0.0
+
+* Upgraded to XP7
 
 ### 2.1.0
 
