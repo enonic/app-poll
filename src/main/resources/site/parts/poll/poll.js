@@ -5,7 +5,7 @@ var auth = require('/lib/xp/auth'),
     portal = require('/lib/xp/portal'),
     thymeleaf = require('/lib/thymeleaf'),
     util = require('/lib/util'),
-    moment = require('/assets/momentjs/2.12.0/min/moment-with-locales.min.js');
+    moment = require('/assets/momentjs/2.24.0/min/moment-with-locales.min.js');
 
 exports.get = handleGet;
 exports.post = handlePost;
@@ -23,7 +23,7 @@ function handleGet(req) {
         var body = thymeleaf.render( resolve('poll.html'), createModel() ),
             pageContributions = {
                 headEnd: [
-                    '<script src="' + portal.assetUrl({path: 'jquery/2.2.4/jquery.min.js'}) + '"></script>',
+                    '<script src="' + portal.assetUrl({path: 'jquery/3.4.1/jquery.min.js'}) + '"></script>',
                     '<script>var $j = jQuery.noConflict(true);</script>'],
                 bodyEnd: ['<script src="' + portal.assetUrl({path: 'js/polls.js'}) + '"></script>']
             };
@@ -64,7 +64,7 @@ function handleGet(req) {
         model.action = portal.componentUrl({component: component._path});
         model.expires = getExpires(closed, poll.data.expires);
         model.closed = closed || hasResponded(poll, req.cookies);
-        model.total = results ? results.total + ' votes' : '0 votes';
+        model.total = results ? results.total + ' vote(s)' : '0 votes';
         model.options = getResultCount(results, util.data.forceArray(poll.data.options), model.closed);
         model.requireLogin = poll.data.requireLogin && !user;
 
