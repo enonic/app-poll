@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <part>
   <display-name>Poll</display-name>
-  <config>
+  <form>
     <input type="ContentSelector" name="poll">
       <label>Poll</label>
       <help-text>Select the poll content to show here</help-text>
@@ -17,5 +17,5 @@
       <help-text>Will appear above the question</help-text>
       <occurrences minimum="0" maximum="1"/>
     </input>
-  </config>
+  </form>
 </part>
