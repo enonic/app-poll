@@ -20,7 +20,7 @@ dependencies {
     include "com.enonic.lib:lib-thymeleaf:2.1.0"
     include 'com.enonic.lib:lib-util:3.1.1'
     webjar "org.webjars:jquery:3.7.1"
-    webjar "org.webjars:momentjs:2.29.4"
+    webjar "org.webjars:momentjs:2.30.0"
 }
 
 repositories {
