@@ -1,0 +1,5 @@
+kind: "Application"
+title: "Poll"
+description: "Engage your audience by adding polls to your website"
+vendorName: "Enonic AS"
+vendorUrl: "https://enonic.com"

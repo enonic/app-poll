@@ -1,0 +1,23 @@
+kind: "Part"
+title: "Poll"
+form:
+  - type: "ContentSelector"
+    name: "poll"
+    label: "Poll"
+    helpText: "Select the poll content to show here"
+    occurrences:
+      min: 1
+      max: 1
+    attributes:
+      relationshipType: "system:reference"
+    allowContentType:
+      - "poll"
+    allowPath:
+      - "${site}/*"
+  - type: "TextLine"
+    name: "heading"
+    label: "Heading (optional)"
+    helpText: "Will appear above the question"
+    occurrences:
+      min: 0
+      max: 1

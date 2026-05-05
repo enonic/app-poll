@@ -1,0 +1,31 @@
+kind: "ContentType"
+superType: "base:structured"
+title: "Poll response"
+form:
+  - type: "FieldSet"
+    label: "Poll"
+    items:
+      - type: "ContentSelector"
+        name: "poll"
+        label: "Poll"
+        occurrences:
+          min: 1
+          max: 1
+        attributes:
+          relationshipType: "system:reference"
+        allowContentType:
+          - "poll"
+        allowPath:
+          - "${site}/*"
+      - type: "TextLine"
+        name: "option"
+        label: "Option"
+        occurrences:
+          min: 1
+          max: 1
+      - type: "TextLine"
+        name: "user"
+        label: "user"
+        occurrences:
+          min: 0
+          max: 1
