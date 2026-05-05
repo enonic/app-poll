@@ -1,0 +1,25 @@
+kind: "CMS"
+form:
+  - type: "RadioButton"
+    name: "pollCSS"
+    label: "Poll styling"
+    helpText: "See documentation github.com/enonic/app-poll"
+    occurrences:
+      min: 1
+      max: 1
+    options:
+      - value: "default"
+        label: "Use default styling"
+      - value: "bootstrap"
+        label: "Use Bootstrap markup"
+      - value: "none"
+        label: "None (requires custom styling)"
+    default: "default"
+  - type: "TextLine"
+    name: "containerClass"
+    label: "Add CSS class to poll containers"
+    helpText: "This could help the polls match your site without custom styling if\
+      \ you know what class to use."
+    occurrences:
+      min: 0
+      max: 1
