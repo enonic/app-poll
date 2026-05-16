@@ -3,6 +3,7 @@ var auth = require('/lib/xp/auth'),
     contentLib = require('/lib/xp/content'),
     contextLib = require('/lib/xp/context'),
     portal = require('/lib/xp/portal'),
+    assetLib = require('/lib/enonic/asset'),
     thymeleaf = require('/lib/thymeleaf'),
     moment = require('/assets/momentjs/2.30.1-1/moment-with-locales.min.js');
 
@@ -22,16 +23,16 @@ function handleGet(req) {
         var body = thymeleaf.render( resolve('poll.html'), createModel() ),
             pageContributions = {
                 headEnd: [
-                    '<script src="' + portal.assetUrl({path: 'jquery/4.0.0/jquery.min.js'}) + '"></script>',
+                    '<script src="' + assetLib.assetUrl({path: 'jquery/4.0.0/jquery.min.js'}) + '"></script>',
                     '<script>var $j = jQuery.noConflict(true);</script>'],
-                bodyEnd: ['<script src="' + portal.assetUrl({path: 'js/polls.js'}) + '"></script>']
+                bodyEnd: ['<script src="' + assetLib.assetUrl({path: 'js/polls.js'}) + '"></script>']
             };
 
         if(pollCSS == 'default') {
-            pageContributions.headEnd.push('<link rel="stylesheet" href="' + portal.assetUrl({path: 'css/polls.css'}) + '" type="text/css" media="all">');
+            pageContributions.headEnd.push('<link rel="stylesheet" href="' + assetLib.assetUrl({path: 'css/polls.css'}) + '" type="text/css" media="all">');
         }
         if(pollCSS == 'bootstrap') {
-            pageContributions.headEnd.push('<link rel="stylesheet" href="' + portal.assetUrl({path: 'css/poll-bootstrap.css'}) + '" type="text/css" media="all">');
+            pageContributions.headEnd.push('<link rel="stylesheet" href="' + assetLib.assetUrl({path: 'css/poll-bootstrap.css'}) + '" type="text/css" media="all">');
         }
 
         return {
