@@ -4,7 +4,7 @@ var auth = require('/lib/xp/auth'),
     contextLib = require('/lib/xp/context'),
     portal = require('/lib/xp/portal'),
     thymeleaf = require('/lib/thymeleaf'),
-    moment = require('/assets/momentjs/2.24.0/min/moment-with-locales.min.js');
+    moment = require('/assets/momentjs/2.30.1-1/moment-with-locales.min.js');
 
 exports.get = handleGet;
 exports.post = handlePost;
@@ -22,7 +22,7 @@ function handleGet(req) {
         var body = thymeleaf.render( resolve('poll.html'), createModel() ),
             pageContributions = {
                 headEnd: [
-                    '<script src="' + portal.assetUrl({path: 'jquery/3.4.1/jquery.min.js'}) + '"></script>',
+                    '<script src="' + portal.assetUrl({path: 'jquery/4.0.0/jquery.min.js'}) + '"></script>',
                     '<script>var $j = jQuery.noConflict(true);</script>'],
                 bodyEnd: ['<script src="' + portal.assetUrl({path: 'js/polls.js'}) + '"></script>']
             };
