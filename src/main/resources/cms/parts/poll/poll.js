@@ -4,8 +4,8 @@ var auth = require('/lib/xp/auth'),
     contextLib = require('/lib/xp/context'),
     portal = require('/lib/xp/portal'),
     thymeleaf = require('/lib/thymeleaf'),
-    util = require('/lib/util'),
-    moment = require('/assets/momentjs/2.24.0/min/moment-with-locales.min.js');
+    util = require('/lib/util/data'),
+    moment = require('/assets/momentjs/2.30.1-1/moment-with-locales.min.js');
 
 exports.get = handleGet;
 exports.post = handlePost;
@@ -23,7 +23,7 @@ function handleGet(req) {
         var body = thymeleaf.render( resolve('poll.html'), createModel() ),
             pageContributions = {
                 headEnd: [
-                    '<script src="' + portal.assetUrl({path: 'jquery/3.4.1/jquery.min.js'}) + '"></script>',
+                    '<script src="' + portal.assetUrl({path: 'jquery/4.0.0/jquery.min.js'}) + '"></script>',
                     '<script>var $j = jQuery.noConflict(true);</script>'],
                 bodyEnd: ['<script src="' + portal.assetUrl({path: 'js/polls.js'}) + '"></script>']
             };
@@ -65,7 +65,7 @@ function handleGet(req) {
         model.expires = getExpires(closed, poll.data.expires);
         model.closed = closed || hasResponded(poll, req.cookies);
         model.total = results ? results.total + ' vote(s)' : '0 votes';
-        model.options = getResultCount(results, util.data.forceArray(poll.data.options), model.closed);
+        model.options = getResultCount(results, util.forceArray(poll.data.options), model.closed);
         model.requireLogin = poll.data.requireLogin && !user;
 
         return model;
@@ -89,7 +89,7 @@ function handlePost(req) {
     if(!pollContent) {
         return error('No poll content.');
     }
-    var pollOptions = util.data.forceArray(pollContent.data.options); // Array of the options
+    var pollOptions = util.forceArray(pollContent.data.options); // Array of the options
 
     if(!isValidOption(params.option, pollOptions)) {
         return error('Not a valid option ' + params.option);
